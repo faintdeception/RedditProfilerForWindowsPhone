@@ -1,0 +1,213 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="RedditProfilerForWindowsPhone.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:cloud="clr-namespace:Wp7TagCloud;assembly=Wp7TagCloud"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="StalkState">
+                <VisualState x:Name="Outside"/>
+                <VisualState x:Name="Inside">
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetName="OutsideStackPanel"
+                            Storyboard.TargetProperty="Opacity"
+                            From="1.0" To="0"
+                            Duration="0:0:1"
+                            />
+
+                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OutsideStackPanel" Storyboard.TargetProperty="(UIElement.Visibility)">
+
+                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+
+                                <DiscreteObjectKeyFrame.Value>
+
+                                    <Visibility>Collapsed</Visibility>
+
+                                </DiscreteObjectKeyFrame.Value>
+
+                            </DiscreteObjectKeyFrame>
+
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimation
+                            Storyboard.TargetName="InsideStackPanel"
+                            Storyboard.TargetProperty="Opacity"
+                            From="0" To="1"
+                            Duration="0:0:1"
+                            />
+
+                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="InsideStackPanel" Storyboard.TargetProperty="(UIElement.Visibility)">
+
+                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+
+                                <DiscreteObjectKeyFrame.Value>
+
+                                    <Visibility>Visible</Visibility>
+
+                                </DiscreteObjectKeyFrame.Value>
+
+                            </DiscreteObjectKeyFrame>
+
+                        </ObjectAnimationUsingKeyFrames>
+
+                        <DoubleAnimation
+                            Storyboard.TargetName="subredditListBorder"
+                            Storyboard.TargetProperty="Opacity"
+                            From="0" To="1"
+                            Duration="0:0:1"
+                            />
+
+                        <DoubleAnimation
+                            Storyboard.TargetName="StalkTarget"
+                            Storyboard.TargetProperty="Opacity"
+                            From="0" To="1"
+                            Duration="0:0:1"
+                            />
+
+                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="StalkTarget" Storyboard.TargetProperty="(UIElement.Visibility)">
+
+                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+
+                                <DiscreteObjectKeyFrame.Value>
+
+                                    <Visibility>Visible</Visibility>
+
+                                </DiscreteObjectKeyFrame.Value>
+
+                            </DiscreteObjectKeyFrame>
+
+                        </ObjectAnimationUsingKeyFrames>
+
+
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="DataFetchState">
+                <VisualState x:Name="Downloaded"/>
+                <VisualState x:Name="Downloading">
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetName="ProgressBar"
+                            Storyboard.TargetProperty="Opacity"
+                            From="0" To="1"
+                            Duration="0:0:1"
+                            />
+
+                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="ProgressBar" Storyboard.TargetProperty="(UIElement.Visibility)">
+
+                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+
+                                <DiscreteObjectKeyFrame.Value>
+
+                                    <Visibility>Visible</Visibility>
+
+                                </DiscreteObjectKeyFrame.Value>
+
+                            </DiscreteObjectKeyFrame>
+
+                        </ObjectAnimationUsingKeyFrames>
+
+
+                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.001" Storyboard.TargetProperty="(Control.IsEnabled)" Storyboard.TargetName="GoDeeperButton">
+                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <system:Boolean>False</system:Boolean>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+
+                        <DoubleAnimation
+                            Storyboard.TargetName="GoDeeperButton"
+                            Storyboard.TargetProperty="Opacity"
+                            From="1" To=".5"
+                            Duration="0:0:1"
+                            />
+
+
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ProgressBar Grid.Row="1" IsIndeterminate="True" Visibility="Collapsed" x:Name="ProgressBar"/>
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationTitle" Text="Reddit Profiler" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="stalk someone" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Opacity="0" x:Name="StalkTarget" Visibility="Collapsed">
+                <TextBlock  Margin="4"  FontSize="23" Foreground="OrangeRed" FontStyle="Italic" Text="{Binding Text, ElementName=userName, Mode=OneWay}"/>
+                <TextBlock Margin="4" FontSize="23" Foreground="OrangeRed" Text="{Binding CurrentDepth, Converter={StaticResource DepthFormat}}" />
+            </StackPanel>
+            <Border Grid.RowSpan="2" x:Name="subredditListBorder" Opacity="0" BorderBrush="SkyBlue" BorderThickness="1" Grid.Row="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/><ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="SubredditList">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Text=" " />
+                                        <TextBlock Text="{Binding Weight}" FontFamily="Lucida Sans Unicode"  FontStyle="Italic" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <ListBox x:Name="cloud" Foreground="Red" Grid.Column="1" FontFamily="Georgia"/>
+                </Grid>
+
+            </Border>
+            <StackPanel x:Name="InsideStackPanel" Opacity="0" Visibility="Collapsed" VerticalAlignment="Center" Grid.Row="3" HorizontalAlignment="Stretch">
+                <Button x:Name="ResetButton" Content="Get Out" Click="GetOut_ButtonClick"/>
+                <Button x:Name="GoDeeperButton" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Go Deeper" Margin="5" Click="GoDeeperButton_Click" />
+            </StackPanel>
+
+            <StackPanel x:Name="OutsideStackPanel" Visibility="Visible" VerticalAlignment="Center" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch">
+                <TextBox x:Name="userName" VerticalAlignment="Center" HorizontalAlignment="Stretch" Width="400" Margin="5" GotFocus="userName_GotFocus" />
+                <Button VerticalAlignment="Center" HorizontalAlignment="Center" Content="Go Inside" Margin="5" Click="ProfileMeButton_Click" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+    <!--Sample code showing usage of ApplicationBar-->
+    <!--<phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
+                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
+
+</phone:PhoneApplicationPage>

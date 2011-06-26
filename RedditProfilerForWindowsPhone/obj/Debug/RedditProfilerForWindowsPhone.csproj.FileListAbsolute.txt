@@ -1,0 +1,15 @@
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\ApplicationIcon.jpg
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\Background.jpg
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\RedditProfilerForWindowsPhone.dll
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\RedditProfilerForWindowsPhone.pdb
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\AppManifest.xaml
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\RedditProfilerForWindowsPhone.xap
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\Newtonsoft.Json.WindowsPhone.dll
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\ResolveAssemblyReference.cache
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\App.g.i.cs
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\MainPage.g.i.cs
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\RedditProfilerForWindowsPhone.g.resources
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\RedditProfilerForWindowsPhone.dll
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\RedditProfilerForWindowsPhone.pdb
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\XapCacheFile.xml
+c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\Wp7TagCloud.dll
