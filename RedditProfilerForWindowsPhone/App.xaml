@@ -9,7 +9,60 @@
 
     <!--Application Resources-->
     <Application.Resources>
-        <format:DepthFormat x:Key="DepthFormat"/>        
+        <format:DepthFormat x:Key="DepthFormat"/>
+        <Style x:Key="CustomHyperlinkButtonStyle" TargetType="HyperlinkButton">
+        	<Setter Property="Foreground"
+            Value="{StaticResource PhoneForegroundBrush}" />
+    <Setter Property="Background"
+            Value="Transparent" />
+    <Setter Property="FontSize"
+            Value="{StaticResource PhoneFontSizeMedium}" />
+    <Setter Property="Padding"
+            Value="0" />
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="HyperlinkButton">
+                <Border Background="Transparent">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="MouseOver" />
+                            <VisualState x:Name="Pressed">
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0"
+                                                        To="0.5"
+                                                        Storyboard.TargetProperty="Opacity"
+                                                        Storyboard.TargetName="ContentElement" />
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                    Storyboard.TargetName="DisabledElement">
+                                        <DiscreteObjectKeyFrame KeyTime="0"
+                                                                Value="{StaticResource PhoneDisabledBrush}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Border Background="{TemplateBinding Background}"
+                            Margin="{StaticResource PhoneHorizontalMargin}"
+                            Padding="{TemplateBinding Padding}">
+                        <Grid Height="31"
+                                Margin="0">
+                            <ContentPresenter x:Name="ContentElement"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                Content="{TemplateBinding Content}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <Rectangle x:Name="DisabledElement" />
+                        </Grid>
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+        </Style>        
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

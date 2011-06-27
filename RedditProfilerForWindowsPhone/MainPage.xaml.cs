@@ -50,7 +50,7 @@ namespace RedditProfilerForWindowsPhone
         }
 
         #endregion //_entries
-        
+
 
         string _lastIdPulled;
         bool _resetPushed;
@@ -106,7 +106,7 @@ namespace RedditProfilerForWindowsPhone
         }
 
         #endregion //CommentCount
-        
+
 
         #region CurrentDepth (DependencyProperty)
 
@@ -132,17 +132,19 @@ namespace RedditProfilerForWindowsPhone
         }
 
         #endregion //CurrentDepth
-        
+
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
+            this.DataContext = this;
 
-           
             this.Subreddits = new ObservableCollection<WeightedSubreddit>();
             this._entries = new ObservableCollection<RedditEntry>();
-            
+
+            this.DetailedList.DataContext = this.SubredditList.SelectedItem;
+
 #if DEBUG
             this.userName.Text = "faintdeception";
 #endif
@@ -152,12 +154,13 @@ namespace RedditProfilerForWindowsPhone
 
         private void ProfileMeButton_Click(object sender, RoutedEventArgs e)
         {
+            this.CurrentDepth = 1;
+
             this._isDownloading = true;
 
             this.EnsureVisualState();
             // Create a Uri with the address to the Yahoo Pipe.
-            Uri uri = new Uri(
-              @"http://pipes.yahooapis.com/pipes/pipe.run?_id=2d136fd8e0a154f6bb996b216d590766&_render=json&userName=" + this.userName.Text);
+            Uri uri = new Uri(@"http://pipes.yahooapis.com/pipes/pipe.run?_id=2d136fd8e0a154f6bb996b216d590766&_render=json&userName=" + this.userName.Text);
             this.GetComments(uri);
         }
 
@@ -175,11 +178,8 @@ namespace RedditProfilerForWindowsPhone
             DataContractJsonSerializer jsonSerializer =
               new DataContractJsonSerializer(typeof(RedditEntry));
 
-            try
-            {
-
-                //Console.WriteLine(r.Title);
-
+            //try
+            //{
                 JsonTextReader reader = new JsonTextReader(new
                 StringReader(e.Result));
                 // Dig through the JSON and find the array of results.
@@ -226,49 +226,54 @@ namespace RedditProfilerForWindowsPhone
                     }
                 }
 
-                Dictionary<string, int> subredditWeigher = new Dictionary<string, int>();
+                Dictionary<string, List<RedditEntry>> subredditWeigher = new Dictionary<string, List<RedditEntry>>();
 
-                cloud.ItemsSource = _entries.Select(d => d.Subreddit);
+                //cloud.ItemsSource = _entries.Select(d => d.Subreddit);
                 foreach (RedditEntry entry in _entries)
                 {
                     string subreddit = entry.Subreddit;
 
                     if (subredditWeigher.ContainsKey(subreddit))
-                        subredditWeigher[subreddit]++;
+                        subredditWeigher[subreddit].Add(entry);
                     else
-                        subredditWeigher.Add(subreddit, 1);
+                    {
+                        subredditWeigher.Add(subreddit, new List<RedditEntry>());
+                        subredditWeigher[subreddit].Add(entry);
+                    }
                 }
 
                 this.Subreddits.Clear();
                 foreach (var item in subredditWeigher)
                 {
-                    this.Subreddits.Add(new WeightedSubreddit() { Name = item.Key, Weight = item.Value });
+                    this.Subreddits.Add(new WeightedSubreddit() { Name = item.Key, Weight = (item.Value as List<RedditEntry>).Count, Entries = item.Value as List<RedditEntry> });
                 }
 
                 this.Subreddits.BubbleSort();
-                this.SubredditList.ItemsSource = this.Subreddits;
+                //this.SubredditList.ItemsSource = this.Subreddits;
 
 
-                
+
 
 
                 //PopulateTagItems();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to parse JSON: " + ex.Message.ToString());
-            }
-            finally
-            {
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Failed to parse JSON: " + ex.Message.ToString());
+            //}
+            //finally
+            //{
                 this._isDownloading = false;
 
                 this.EnsureVisualState();
-            }
+            //}
         }
 
         private void GoDeeperButton_Click(object sender, RoutedEventArgs e)
         {
             //TODO: Need to send the id of the last entry along with the query.
+
+            this.CurrentDepth++;
 
             this._isDownloading = true;
 
@@ -282,7 +287,7 @@ namespace RedditProfilerForWindowsPhone
                 this.EnsureVisualState();
                 return;
             }
-           
+
 
             // Create a Uri with the address to the Yahoo Pipe.
             Uri uri = new Uri(
@@ -307,7 +312,7 @@ namespace RedditProfilerForWindowsPhone
             else
                 VisualStateManager.GoToState(this, "Inside", true);
 
-            if(this._isDownloading)
+            if (this._isDownloading)
                 VisualStateManager.GoToState(this, "Downloading", true);
             else
                 VisualStateManager.GoToState(this, "Downloaded", true);
@@ -317,8 +322,10 @@ namespace RedditProfilerForWindowsPhone
 
         private void GetOut_ButtonClick(object sender, RoutedEventArgs e)
         {
+            this.CurrentDepth = 0;
+
             this._client.CancelAsync();
-            
+
             this._entries.Clear();
             this.Subreddits.Clear();
 
@@ -329,7 +336,16 @@ namespace RedditProfilerForWindowsPhone
 
         private void userName_GotFocus(object sender, RoutedEventArgs e)
         {
-            this.userName.Text = string.Empty;
+            this.userName.SelectAll();
+        }
+
+        private void SubredditList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.SubredditList.SelectedItem != null)
+            {
+                this.DetailedList.DataContext = (WeightedSubreddit)SubredditList.SelectedItem;
+                this.DetailedList.ItemsSource = ((WeightedSubreddit)SubredditList.SelectedItem).Entries;
+            }
         }
 
 
@@ -337,8 +353,24 @@ namespace RedditProfilerForWindowsPhone
 
     public class WeightedSubreddit : IComparable
     {
+        private List<RedditEntry> _redditEntries;
         public string Name { get; set; }
         public int Weight { get; set; }
+        public List<RedditEntry> Entries
+        {
+            get
+            {
+                if (this._redditEntries == null)
+                    this._redditEntries = new List<RedditEntry>();
+
+                return this._redditEntries;
+            }
+
+            set
+            {
+                this._redditEntries = value;
+            }
+        }
 
         public int CompareTo(object obj)
         {
