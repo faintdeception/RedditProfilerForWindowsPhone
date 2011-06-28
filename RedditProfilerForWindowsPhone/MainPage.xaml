@@ -14,19 +14,19 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
-	<phone:PhoneApplicationPage.Resources>
-		<DataTemplate x:Key="DataTemplate1">
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="DataTemplate1">
 
-			<Border BorderBrush="Gray" BorderThickness="1" Margin="5">
-                                    <!--<ListBox ItemsSource="{Binding Weight}"/>-->
+            <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+                <!--<ListBox ItemsSource="{Binding Weight}"/>-->
 
-				<HyperlinkButton NavigateUri="{Binding ResolvedUri}" TargetName="_blank" Content="{Binding Comment}" Style="{StaticResource CustomHyperlinkButtonStyle}"/>
+                <HyperlinkButton NavigateUri="{Binding ResolvedUri}" TargetName="_blank" Content="{Binding Comment}" Style="{StaticResource CustomHyperlinkButtonStyle}"/>
 
 
 
-			</Border>
-		</DataTemplate>
-	</phone:PhoneApplicationPage.Resources>
+            </Border>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -153,6 +153,27 @@
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup x:Name="SubredditSelectionState">
+                <VisualState x:Name="NoSelection"/>
+                <VisualState x:Name="SubredditSelected">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Grid.RowSpan)" Storyboard.TargetName="stackPanel">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <system:Int32>1</system:Int32>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="stackPanel1">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -179,23 +200,30 @@
             </StackPanel>
             <Border Grid.RowSpan="2" x:Name="subredditListBorder" Opacity="0" BorderBrush="SkyBlue" BorderThickness="1" Grid.Row="1">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/><ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <ListBox x:Name="SubredditList" ItemsSource="{Binding Subreddits}" SelectionChanged="SubredditList_SelectionChanged" >
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Name}" />
-                                        <TextBlock Text=" " />
-                                        <TextBlock Text="{Binding Weight}" FontFamily="Lucida Sans Unicode"  FontStyle="Italic" />
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <ListBox x:Name="DetailedList" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemTemplate="{StaticResource DataTemplate1}"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="stackPanel" Orientation="Vertical" Grid.RowSpan="2">
+                        <TextBlock Text="Subreddit"/>
+                        <ListBox x:Name="SubredditList" ItemsSource="{Binding Subreddits}" SelectionChanged="SubredditList_SelectionChanged" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}" />
+                                            <TextBlock Text=" " />
+                                            <TextBlock Text="{Binding Weight}" FontFamily="Lucida Sans Unicode"  FontStyle="Italic" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <StackPanel x:Name="stackPanel1" Grid.Row="1" Orientation="Vertical" Visibility="Collapsed">
+                        <TextBlock Text="Comments" />
+                        <ListBox x:Name="DetailedList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemTemplate="{StaticResource DataTemplate1}"/>
+                    </StackPanel>
                 </Grid>
 
             </Border>

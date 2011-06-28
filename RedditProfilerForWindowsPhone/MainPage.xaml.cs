@@ -317,6 +317,11 @@ namespace RedditProfilerForWindowsPhone
             else
                 VisualStateManager.GoToState(this, "Downloaded", true);
 
+
+            if (this.SubredditList.SelectedItem != null)
+                VisualStateManager.GoToState(this, "SubredditSelected", true);
+            else
+                VisualStateManager.GoToState(this, "NoSelection", true);
             this._resetPushed = false;
         }
 
@@ -346,6 +351,8 @@ namespace RedditProfilerForWindowsPhone
                 this.DetailedList.DataContext = (WeightedSubreddit)SubredditList.SelectedItem;
                 this.DetailedList.ItemsSource = ((WeightedSubreddit)SubredditList.SelectedItem).Entries;
             }
+
+            this.EnsureVisualState();
         }
 
 
