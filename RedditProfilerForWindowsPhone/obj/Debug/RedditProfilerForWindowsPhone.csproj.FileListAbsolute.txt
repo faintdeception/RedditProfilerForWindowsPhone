@@ -13,3 +13,6 @@ c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhon
 c:\users\zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\Wp7TagCloud.dll
 C:\Users\Zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\App.g.i.cs
 C:\Users\Zach\documents\visual studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\MainPage.g.i.cs
+C:\Users\Zach\Documents\Visual Studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\Microsoft.Phone.Controls.dll
+C:\Users\Zach\Documents\Visual Studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\Bin\Debug\Microsoft.Phone.Controls.xml
+C:\Users\Zach\Documents\Visual Studio 2010\Projects\RedditProfilerForWindowsPhone\RedditProfilerForWindowsPhone\obj\Debug\VictimDetails.g.i.cs

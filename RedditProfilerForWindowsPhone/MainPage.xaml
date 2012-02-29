@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:cloud="clr-namespace:Wp7TagCloud;assembly=Wp7TagCloud"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -198,35 +199,41 @@
                 <TextBlock  Margin="4"  FontSize="23" Foreground="OrangeRed" FontStyle="Italic" Text="{Binding Text, ElementName=userName, Mode=OneWay}"/>
                 <TextBlock Margin="4" FontSize="23" Foreground="OrangeRed" Text="{Binding CurrentDepth, Converter={StaticResource DepthFormat}}" />
             </StackPanel>
-            <Border Grid.RowSpan="2" x:Name="subredditListBorder" Opacity="0" BorderBrush="SkyBlue" BorderThickness="1" Grid.Row="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <StackPanel x:Name="stackPanel" Orientation="Vertical" Grid.RowSpan="2">
-                        <TextBlock Text="Subreddit"/>
-                        <ListBox x:Name="SubredditList" ItemsSource="{Binding Subreddits}" SelectionChanged="SubredditList_SelectionChanged" >
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}" />
-                                            <TextBlock Text=" " />
-                                            <TextBlock Text="{Binding Weight}" FontFamily="Lucida Sans Unicode"  FontStyle="Italic" />
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
-                    <StackPanel x:Name="stackPanel1" Grid.Row="1" Orientation="Vertical" Visibility="Collapsed">
-                        <TextBlock Text="Comments" />
-                        <ListBox x:Name="DetailedList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemTemplate="{StaticResource DataTemplate1}"/>
-                    </StackPanel>
-                </Grid>
 
-            </Border>
+            <controls:Panorama Grid.RowSpan="2" x:Name="subredditListBorder" Opacity="0" BorderBrush="SkyBlue" BorderThickness="1" Grid.Row="1">
+
+                <!--Panorama item one-->
+                <controls:PanoramaItem Header="Subreddits">
+                    <ListBox x:Name="SubredditList" ItemsSource="{Binding Subreddits}" SelectionChanged="SubredditList_SelectionChanged" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Text=" " />
+                                        <TextBlock Text="{Binding Weight}" FontFamily="Lucida Sans Unicode"  FontStyle="Italic" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </controls:PanoramaItem>
+
+                <!--Panorama item two-->
+                <controls:PanoramaItem Header="Comments">
+                    <ListBox x:Name="DetailedList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemTemplate="{StaticResource DataTemplate1}"/>
+
+                </controls:PanoramaItem>
+
+                <controls:PanoramaItem Header="Liked">
+                    <Grid/>
+                </controls:PanoramaItem>
+
+                <controls:PanoramaItem Header="Disliked">
+                    <Grid/>
+                </controls:PanoramaItem>
+            </controls:Panorama>
+            
             <StackPanel x:Name="InsideStackPanel" Opacity="0" Visibility="Collapsed" VerticalAlignment="Center" Grid.Row="3" HorizontalAlignment="Stretch">
                 <Button x:Name="ResetButton" Content="Get Out" Click="GetOut_ButtonClick"/>
                 <Button x:Name="GoDeeperButton" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Go Deeper" Margin="5" Click="GoDeeperButton_Click" />

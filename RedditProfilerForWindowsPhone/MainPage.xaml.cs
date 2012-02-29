@@ -178,8 +178,8 @@ namespace RedditProfilerForWindowsPhone
             DataContractJsonSerializer jsonSerializer =
               new DataContractJsonSerializer(typeof(RedditEntry));
 
-            //try
-            //{
+            try
+            {
                 JsonTextReader reader = new JsonTextReader(new
                 StringReader(e.Result));
                 // Dig through the JSON and find the array of results.
@@ -256,17 +256,17 @@ namespace RedditProfilerForWindowsPhone
 
 
                 //PopulateTagItems();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Failed to parse JSON: " + ex.Message.ToString());
-            //}
-            //finally
-            //{
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to parse JSON: " + ex.Message.ToString());
+            }
+            finally
+            {
                 this._isDownloading = false;
 
                 this.EnsureVisualState();
-            //}
+            }
         }
 
         private void GoDeeperButton_Click(object sender, RoutedEventArgs e)
@@ -318,10 +318,10 @@ namespace RedditProfilerForWindowsPhone
                 VisualStateManager.GoToState(this, "Downloaded", true);
 
 
-            if (this.SubredditList.SelectedItem != null)
-                VisualStateManager.GoToState(this, "SubredditSelected", true);
-            else
-                VisualStateManager.GoToState(this, "NoSelection", true);
+            //if (this.SubredditList.SelectedItem != null)
+            //    VisualStateManager.GoToState(this, "SubredditSelected", true);
+            //else
+            //    VisualStateManager.GoToState(this, "NoSelection", true);
             this._resetPushed = false;
         }
 
